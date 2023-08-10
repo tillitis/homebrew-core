@@ -56,15 +56,8 @@ class TkeySshAgent < Formula
   end
 
   service do
-    args = [
-      opt_bin/"tkey-ssh-agent",
-      "--agent-socket",
-      var/"run/tkey-ssh-agent.sock",
-      "--uss",
-    ]
-    args << "--pinentry" if OS.mac?
-    args << (HOMEBREW_PREFIX/"bin/pinentry-mac") if OS.mac?
-    run args
+    run macos: [opt_bin/"tkey-ssh-agent", "--agent-socket", var/"run/tkey-ssh-agent.sock", "--uss", "--pinentry", HOMEBREW_PREFIX/"bin/pinentry-mac"],
+        linux: [opt_bin/"tkey-ssh-agent", "--agent-socket", var/"run/tkey-ssh-agent.sock", "--uss"]
     keep_alive true
     log_path var/"log/tkey-ssh-agent.log"
     error_log_path var/"log/tkey-ssh-agent.log"
